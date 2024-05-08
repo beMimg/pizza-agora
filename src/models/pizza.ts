@@ -6,3 +6,5 @@ const pizzaSchema = new mongoose.Schema({
   ingredients: { type: Array, required: true },
   image: { type: String },
 });
+
+export const pizzaModel = mongoose.model("Pizza", pizzaSchema);

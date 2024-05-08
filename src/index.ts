@@ -6,7 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
-import indexRoute from "./router/index";
+import indexRoute from "./routes/index";
 
 const app = express();
 
