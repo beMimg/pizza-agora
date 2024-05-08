@@ -6,6 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
+import indexRoute from "./router/index";
 
 const app = express();
 
@@ -31,3 +32,5 @@ mongoose.connection.on("error", (error: Error) => console.log(error));
 mongoose.connection.on("connected", () =>
   console.log("connected to mongodb database")
 );
+
+app.use("/", indexRoute);
