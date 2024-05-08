@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
+import mongoose from "mongoose";
+import "dotenv/config";
 
 const app = express();
 
@@ -22,3 +24,10 @@ const server = http.createServer(app);
 server.listen(3000, () => {
   console.log("Server running on port http://localhost:3000/");
 });
+
+mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGODB_URI);
+mongoose.connection.on("error", (error: Error) => console.log(error));
+mongoose.connection.on("connected", () =>
+  console.log("connected to mongodb database")
+);
