@@ -3,8 +3,6 @@ import { body, validationResult } from "express-validator";
 import { pizzaModel } from "../models/pizza";
 
 const createPizza = async (req: Request, res: Response) => {
-  console.log("hi");
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -47,4 +45,48 @@ const getAllPizzas = async (req: Request, res: Response) => {
   }
 };
 
-export { createPizza, pizzaValidation, getAllPizzas };
+const editPizza = async (req: Request, res: Response) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { pizzaName, price, ingredients, image } = req.body;
+
+    const pizza = await pizzaModel.findById(req.params.id);
+
+    if (!pizza) {
+      return res.status(404).json({ message: "Pizza not found" });
+    }
+
+    pizza.pizzaName = pizzaName;
+    pizza.price = price;
+    pizza.ingredients = ingredients;
+    pizza.image = image;
+
+    await pizza.save();
+
+    res.status(200).json({ pizza });
+  } catch (err) {
+    console.error("Error", err);
+  }
+};
+
+const deletePizza = async (req: Request, res: Response) => {
+  try {
+    const pizza = await pizzaModel.findById(req.params.id);
+
+    if (!pizza) {
+      return res.status(404).json({ message: "Pizza not found" });
+    }
+
+    await pizza.deleteOne();
+    res.status(200).json({ message: "Pizza deleted" });
+  } catch (err) {
+    console.error("Error", err);
+  }
+};
+
+export { createPizza, pizzaValidation, getAllPizzas, editPizza, deletePizza };
