@@ -34,4 +34,17 @@ const pizzaValidation = [
   body("image").optional().isString(),
 ];
 
-export { createPizza, pizzaValidation };
+const getAllPizzas = async (req: Request, res: Response) => {
+  try {
+    const pizzas = await pizzaModel.find();
+
+    if (!pizzas) {
+      return res.status(404).json({ message: "This list is currently empty" });
+    }
+    res.status(200).json({ pizzas });
+  } catch (err) {
+    console.error("Error", err);
+  }
+};
+
+export { createPizza, pizzaValidation, getAllPizzas };
