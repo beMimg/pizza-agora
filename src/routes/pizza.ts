@@ -4,11 +4,12 @@ import {
   pizzaValidation,
   getAllPizzas,
 } from "../controllers/pizza";
+import { authJwt } from "../middleware/jwtStrategy";
 
 const router: Router = express.Router();
 
 router.get("/", getAllPizzas);
 
-router.post("/", pizzaValidation, createPizza);
+router.post("/", authJwt, pizzaValidation, createPizza);
 
 export default router;

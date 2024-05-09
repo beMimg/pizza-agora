@@ -7,6 +7,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import indexRoute from "./routes/index";
+import passport from "passport";
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(passport.initialize());
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
