@@ -1,14 +1,13 @@
-import passport from "passport";
 import { adminModel } from "../models/admin";
+import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import "dotenv/config";
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.ACCESSTOKEN_KEY,
 };
 
-// payload.sub contains the user._id
-// null = no errors
 passport.use(
   new JwtStrategy(options, async (payload, done) => {
     try {
@@ -22,3 +21,5 @@ passport.use(
     }
   })
 );
+
+export const authJwt = passport.authenticate("jwt", { session: false });

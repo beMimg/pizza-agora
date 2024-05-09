@@ -13,7 +13,7 @@ function tokenGenerator(user: User): string {
 
   const duration = "1h";
 
-  const accessToken = jwt.sign({ user: user }, process.env.ACCESSTOKEN_KEY, {
+  const accessToken = jwt.sign(payload, process.env.ACCESSTOKEN_KEY, {
     expiresIn: duration,
   });
 
