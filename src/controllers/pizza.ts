@@ -74,4 +74,19 @@ const editPizza = async (req: Request, res: Response) => {
   }
 };
 
-export { createPizza, pizzaValidation, getAllPizzas, editPizza };
+const deletePizza = async (req: Request, res: Response) => {
+  try {
+    const pizza = await pizzaModel.findById(req.params.id);
+
+    if (!pizza) {
+      return res.status(404).json({ message: "Pizza not found" });
+    }
+
+    await pizza.deleteOne();
+    res.status(200).json({ message: "Pizza deleted" });
+  } catch (err) {
+    console.error("Error", err);
+  }
+};
+
+export { createPizza, pizzaValidation, getAllPizzas, editPizza, deletePizza };
