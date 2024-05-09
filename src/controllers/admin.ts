@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { adminModel } from "../models/admin";
+import generateToken from "../utils/tokenGenerator";
 
+/* 
+Controller with functionality to verify if the user credentials match a user in the database,
+If thats the case, a jwt token will be generate and send as a json.
+*/
 const authAdmin = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
@@ -18,15 +23,17 @@ const authAdmin = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    const match = await bcrypt.compare(req.body.password, admin.password);
+    const match = await bcrypt.compare(password, admin.password);
 
     if (!match) {
       res.status(400).json({ message: "Password is incorrect" });
     }
 
-    res.status(200).json({ message: "You're logged in" });
+    const accessToken = generateToken(admin);
+
+    res.status(200).json({ accessToken: accessToken });
   } catch (err) {
-    console.error(err, "err");
+    console.error("Error", err);
   }
 };
 
