@@ -3,10 +3,8 @@ import bcrypt from "bcryptjs";
 import { adminModel } from "../models/admin";
 import generateToken from "../utils/tokenGenerator";
 
-/* 
-Controller with functionality to verify if the user credentials match a user in the database,
-If thats the case, a jwt token will be generate and send as a json.
-*/
+/* Controller with functionality to verify if the user credentials match a user in the database,
+If thats the case, a jwt token will be generate and send as a json. */
 const authAdmin = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
